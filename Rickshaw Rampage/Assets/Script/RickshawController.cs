@@ -14,6 +14,9 @@ public class RickshawController : MonoBehaviour
     public bool reverse;
     public bool left;
     public bool right;
+
+    public bool PassengerHeld;
+
     private Rigidbody rb;
     private GameObject cube;
 
@@ -21,6 +24,7 @@ public class RickshawController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         cube = this.gameObject;
+        PassengerHeld = false;
     }
 
      void Update()
@@ -29,7 +33,15 @@ public class RickshawController : MonoBehaviour
 
         rb.AddForce(transform.forward * acceleration);
 
-        cube.transform.Rotate(0, torque, 0, Space.Self);
+        if (PassengerHeld == true)
+        {
+
+        }
+        else
+        {
+            cube.transform.Rotate(0, torque, 0, Space.Self);
+        }
+       
     }
 
     void FixedUpdate()

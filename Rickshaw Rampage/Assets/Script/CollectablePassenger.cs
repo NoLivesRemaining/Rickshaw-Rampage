@@ -5,16 +5,21 @@ using UnityEngine;
 public class CollectablePassenger : MonoBehaviour
 {
     public GameObject Player;
-    
+    private MeshRenderer Mesh;
 
-     void OnTriggerEnter(Collider collider)
+    private void Start()
+    {
+        Mesh = GetComponent<MeshRenderer>();
+    }
+
+    void OnTriggerEnter(Collider collider)
     {
         if(collider.gameObject.tag == "Player")
         {
             Player = collider.gameObject;
             transform.parent = Player.transform;
-            Debug.Log("Picked");
-
+            transform.position = transform.parent.position;
+            Mesh.enabled = false;
         }
     }
 

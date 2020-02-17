@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Script\CollectablePassenger.cs" />
+    <Compile Include="Assets\Script\DropOff.cs" />
     <Compile Include="Assets\Script\RickshawController.cs" />
     <Compile Include="Assets\Script\RickshawController2.cs" />
     <Reference Include="Unity.XR.Management">
