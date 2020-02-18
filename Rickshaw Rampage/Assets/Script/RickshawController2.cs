@@ -10,12 +10,18 @@ public class RickshawController2 : MonoBehaviour
     public float maxReverse = -14;
     public float maxTorqueRight = 2;
     public float maxTorqueLeft = -2;
+    // Speed Powerup multiplier float
+    public float speedUpMultiplier;
     public bool forward;
     public bool reverse;
     public bool left;
     public bool right;
+
     private Rigidbody rb;
     private GameObject cube;
+
+    // referencing SpeedPowerup script so that the bool can be pulled from it
+    public SpeedPowerup speedPowerup;
 
     void Start()
     {
@@ -27,9 +33,21 @@ public class RickshawController2 : MonoBehaviour
     {
         speedManagement();
 
-        rb.AddForce(transform.forward * acceleration);
+        // added Speed Powerup multiplier to acceleration
+        rb.AddForce(transform.forward * acceleration * speedUpMultiplier);
 
         cube.transform.Rotate(0, torque, 0, Space.Self);
+
+
+        // taking bool from SpeedPowerup script and using IF statement to check if Speed Powerup is active, and assigning values for both results
+        if (speedPowerup.isBoosted)
+        {
+            speedUpMultiplier = 2;
+        }
+        else
+        {
+            speedUpMultiplier = 1;
+        }
     }
 
     void FixedUpdate()

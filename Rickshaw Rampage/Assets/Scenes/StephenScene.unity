@@ -259,10 +259,12 @@ MonoBehaviour:
   maxReverse: -14
   maxTorqueRight: 2
   maxTorqueLeft: -2
+  speedUpMultiplier: 0
   forward: 0
   reverse: 0
   left: 0
   right: 0
+  speedPowerup: {fileID: 0}
 --- !u!54 &77094160
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -670,11 +672,13 @@ MonoBehaviour:
   maxReverse: -14
   maxTorqueRight: 2
   maxTorqueLeft: -2
+  speedUpMultiplier: 1
   forward: 0
   reverse: 0
   left: 0
   right: 0
   PassengerHeld: 0
+  speedPowerup: {fileID: 1390101659}
 --- !u!54 &325296570
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1845,6 +1849,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isBoosted: 0
+  respawnTimer: 0
 --- !u!1 &1624752021
 GameObject:
   m_ObjectHideFlags: 0
