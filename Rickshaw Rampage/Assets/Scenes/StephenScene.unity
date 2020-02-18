@@ -264,7 +264,7 @@ MonoBehaviour:
   reverse: 0
   left: 0
   right: 0
-  speedPowerup: {fileID: 0}
+  speedPowerup: {fileID: 1390101659}
 --- !u!54 &77094160
 Rigidbody:
   m_ObjectHideFlags: 0

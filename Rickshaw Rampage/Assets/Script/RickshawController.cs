@@ -51,11 +51,11 @@ public class RickshawController : MonoBehaviour
         // taking bool from SpeedPowerup script and using IF statement to check if Speed Powerup is active, and assigning values for both results
         if(speedPowerup.isBoosted)
         {
-            speedUpMultiplier = 2;
+            speedUpMultiplier = 4;
         }
         else
         {
-            speedUpMultiplier = 1;
+            speedUpMultiplier = 2;
         }
     }
 
