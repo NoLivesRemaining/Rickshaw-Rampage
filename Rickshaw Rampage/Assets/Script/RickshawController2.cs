@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RickshawController2 : MonoBehaviour
 {
@@ -10,44 +11,88 @@ public class RickshawController2 : MonoBehaviour
     public float maxReverse = -14;
     public float maxTorqueRight = 2;
     public float maxTorqueLeft = -2;
-    // Speed Powerup multiplier float
-    public float speedUpMultiplier;
+    private float timer;
+    public float boost;
+    public float boostCooldown;
+    private float boostCDReset = 4;
+
     public bool forward;
     public bool reverse;
     public bool left;
     public bool right;
+    public bool PassengerHeld;
+
+    private GameObject cube;
+    public GameObject Passenger;
+    public GameObject Bystander;
+    public TextMesh Text;
 
     private Rigidbody rb;
-    private GameObject cube;
+    private BoxCollider col;
 
-    // referencing SpeedPowerup script so that the bool can be pulled from it
-    public SpeedPowerup speedPowerup;
+    public PhysicMaterial PHeld;
+    public PhysicMaterial Standard;
 
     void Start()
     {
+        StartCountdown();
+        Passenger.SetActive(false);
         rb = GetComponent<Rigidbody>();
+        col = GetComponent<BoxCollider>();
         cube = this.gameObject;
+        PassengerHeld = false;
     }
 
     void Update()
     {
         speedManagement();
 
-        // added Speed Powerup multiplier to acceleration
-        rb.AddForce(transform.forward * acceleration * speedUpMultiplier);
 
+        rb.AddForce(transform.forward * acceleration * boost);
         cube.transform.Rotate(0, torque, 0, Space.Self);
 
-
-        // taking bool from SpeedPowerup script and using IF statement to check if Speed Powerup is active, and assigning values for both results
-        if (speedPowerup.isBoosted)
+        if (PassengerHeld == true)
         {
-            speedUpMultiplier = 2;
+            Passenger.SetActive(true);
+            col.material = PHeld;
         }
         else
         {
-            speedUpMultiplier = 1;
+            timer = Random.Range(10f, 30f);
+            Passenger.SetActive(false);
+            col.material = Standard;
         }
+
+        if (timer == 0)
+        {
+            PassengerHeld = false;
+            Instantiate(Bystander, cube.transform.position, cube.transform.rotation);
+        }
+
+        if (timer <= 0)
+        {
+            timer = 0;
+        }
+
+        if (boost > 1)
+        {
+            boostCooldown -= Time.deltaTime;
+        }
+        else
+        {
+            boostCooldown = boostCDReset;
+        }
+
+        if (boostCooldown <= 0)
+        {
+            boostCooldown = 0;
+        }
+
+        if (boostCooldown == 0)
+        {
+            boost = 1;
+        }
+
     }
 
     void FixedUpdate()
@@ -103,6 +148,26 @@ public class RickshawController2 : MonoBehaviour
                 torque += 0.1f;
             }
             right = true;
+        }
+    }
+
+    void StartCountdown()
+    {
+        if (Text.text != null)
+        {
+            timer = 15f;
+            Text.text = "00";
+            InvokeRepeating("UpdateTimer", 0.0f, 0.01667f);
+        }
+    }
+
+    void UpdateTimer()
+    {
+        if (Text != null)
+        {
+            timer -= Time.deltaTime;
+            string seconds = (timer % 60).ToString("00");
+            Text.text = seconds;
         }
     }
 

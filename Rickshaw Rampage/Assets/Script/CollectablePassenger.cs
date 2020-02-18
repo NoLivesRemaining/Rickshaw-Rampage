@@ -5,21 +5,31 @@ using UnityEngine;
 public class CollectablePassenger : MonoBehaviour
 {
     public GameObject Player;
-    private MeshRenderer Mesh;
-
-    private void Start()
-    {
-        Mesh = GetComponent<MeshRenderer>();
-    }
 
     void OnTriggerEnter(Collider collider)
     {
-        if(collider.gameObject.tag == "Player")
+        if (collider.gameObject.tag == "Player1")
         {
             Player = collider.gameObject;
-            transform.parent = Player.transform;
-            transform.position = transform.parent.position;
-            Mesh.enabled = false;
+            if (Player.GetComponent<RickshawController>().PassengerHeld == false)
+            {
+
+                Player.GetComponent<RickshawController>().PassengerHeld = true;
+                Destroy(gameObject);
+            }
+
+        }
+
+        if (collider.gameObject.tag == "Player2")
+        {
+            Player = collider.gameObject;
+
+            if (Player.GetComponent<RickshawController2>().PassengerHeld == false)
+            {
+                Player.GetComponent<RickshawController2>().PassengerHeld = true;
+                Destroy(gameObject);
+            }
+
         }
     }
 
