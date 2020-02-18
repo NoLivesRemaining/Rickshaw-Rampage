@@ -10,26 +10,64 @@ public class RickshawController2 : MonoBehaviour
     public float maxReverse = -14;
     public float maxTorqueRight = 2;
     public float maxTorqueLeft = -2;
+    private float timer;
+
     public bool forward;
     public bool reverse;
     public bool left;
     public bool right;
+    public bool PassengerHeld;
+
     private Rigidbody rb;
+    private BoxCollider col;
+    public TextMesh Text;
+
     private GameObject cube;
+    public GameObject Passenger;
+    public GameObject Bystander;
+
+    public PhysicMaterial PHeld;
+    public PhysicMaterial Standard;
 
     void Start()
     {
+        StartCountdown();
+        Passenger.SetActive(false);
         rb = GetComponent<Rigidbody>();
+        col = GetComponent<BoxCollider>();
         cube = this.gameObject;
-    }
+        PassengerHeld = false;
+}
 
     void Update()
     {
         speedManagement();
 
         rb.AddForce(transform.forward * acceleration);
-
         cube.transform.Rotate(0, torque, 0, Space.Self);
+
+        if (PassengerHeld == true)
+        {
+            Passenger.SetActive(true);
+            col.material = PHeld;
+        }
+        else
+        {
+            timer = Random.Range(10f, 30f);
+            Passenger.SetActive(false);
+            col.material = Standard;
+        }
+
+        if (timer == 0)
+        {
+            PassengerHeld = false;
+            Instantiate(Bystander, cube.transform.position, cube.transform.rotation);
+        }
+
+        if (timer <= 0)
+        {
+            timer = 0;
+        }
     }
 
     void FixedUpdate()
@@ -85,6 +123,26 @@ public class RickshawController2 : MonoBehaviour
                 torque += 0.1f;
             }
             right = true;
+        }
+    }
+
+    void StartCountdown()
+    {
+        if (Text.text != null)
+        {
+            timer = 15f;
+            Text.text = "00";
+            InvokeRepeating("UpdateTimer", 0.0f, 0.01667f);
+        }
+    }
+
+    void UpdateTimer()
+    {
+        if (Text != null)
+        {
+            timer -= Time.deltaTime;
+            string seconds = (timer % 60).ToString("00");
+            Text.text = seconds;
         }
     }
 
